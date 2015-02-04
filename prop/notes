@@ -1,0 +1,22 @@
+seek these kinds of bugs:
+ - address disclosure
+ - dos
+ - xss
+ - same-origin policy violations
+ - code-injection (escape javascript)
+
+"hot" code/new code (html5)
+ - webgl
+ - canvas
+ - video/audio tags
+ - template tags
+ - web sockets
+ - css3
+
+fuzz testing (focus on firefox and chromium)
+ - generate (structured) random html pages with the above code
+ - maybe dynamic symbolic execution of browser (for finding more code paths)
+
+ https://github.com/NodeGuy/JavaScript-fuzz
+ https://code.google.com/p/google-caja/source/browse/trunk/src/third_party/js/jsfunfuzz/jsfunfuzz.js?r=1767
+ https://code.google.com/p/clusterfuzz/
