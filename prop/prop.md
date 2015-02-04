@@ -20,9 +20,8 @@ These features are motivated by the needs of application developer needs
 without necessarily thoroughly scrutinized for security. With the rapid pace
 of development of web standard, we believe that these technologies are prime
 candidates for bugs, vulnerabilities, and exploits. For example, prior
-exploits include address disclosure vulnerabilities [CITE], arbitrary code
-execution [CITE], cross-site scripting [CITE], and denial-of-service bugs
-[CITE].
+exploits include [address disclosure vulnerabilities], [arbitrary code
+execution], [cross-site scripting], and [denial-of-service bugs].
 
 ## Prior Work
 
@@ -72,3 +71,7 @@ vulnerabilites.
 [AEG]: http://security.ece.cmu.edu/aeg/
 [paper]: http://dl.acm.org/citation.cfm?id=2541977
 [V8]: https://code.google.com/p/v8/
+[address disclosure vulnerabilities]: http://blog.beyondtrust.com/zd_threat/internet-explorer-9-memory-disclosure
+[arbitrary code execution]: https://bugzilla.mozilla.org/show_bug.cgi?id=796866
+[cross-site scripting]: http://net-security.org/dl/articles/WHXSSThreats.pdf
+[denial-of-service bugs]: https://www.evilfingers.com/advisory/Google_Chrome_Browser_0.2.149.27_in_chrome_dll.php
