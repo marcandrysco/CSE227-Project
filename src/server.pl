@@ -1,3 +1,5 @@
+use strict;
+
 use Net::HTTPServer;
 
 my $server = new Net::HTTPServer();
@@ -12,7 +14,9 @@ sub gen_mp3
     my $seed = $req->Env("seed");
     srand($seed);
 
-    $res->Header("Content-Type", "audio/mpeg");
+    my @types = ("audio/mpeg", "audio/MPA", "audio/mpa-robust");
+    $res->Header("Content-Type", $types[rand @types]);
+
     $res->Print(pack "H4", "FFFB"); # mp3 sync word + version id
     $res->Print(pack "H4", "A040"); # other stuff, see http://en.wikipedia.org/wiki/MP3#File_structure
 
