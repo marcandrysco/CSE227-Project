@@ -89,6 +89,7 @@
       if(Rand.bool()) { el.loop = true; }
       if(Rand.bool()) { el.autoplay = true; }
       if(Rand.bool()) { el.muted = true; }
+      if(Rand.bool(0.8)) { el.src = "http://localhost:9000/" + Rand.element(["mp3","corrupt-mp3"]) + "?seed=" + Rand.next() }
       return el;
     },
     /* audio element */
@@ -101,9 +102,25 @@
       if(Rand.bool()) { el.controls = true; }
       if(Rand.bool()) { el.loop = true; }
       if(Rand.bool()) { el.autoplay = true; }
-      if(Rand.bool()) { el.muted = true; }
+      if(Rand.bool()) { el.muted = Rand.bool(); }
       return el;
     }
+  };
+
+  /* finder "class" */
+  var Find = {
+    /* find a random element */
+    element: function(el, depth) {
+      if(!el.hasChildNodes()) { return el; }
+      if(!Rand.bool(1 / Math.max(depth - 2, 1))) { return el; }
+      return Find.element(Rand.element(el.childNodes), depth + 1);
+    }
+  };
+
+  var options = {
+    depthMin: 3,
+    depthMax: 8,
+    depthSpeed: 0.3
   };
 
   var tagList = [
@@ -114,17 +131,29 @@
 
   /* generate random data at a given depth */
   function gen(depth, tag) {
-    while(Rand.bool(0.15) && (tag < (tagList.length - 1))) { tag++; }
+    while(Rand.bool(options.depthSpeed) && (tag < (tagList.length - 1))) { tag++; }
     var el = Rand.element(tagList[tag])();
-    var n = Rand.range(3-depth, 8-depth);
+    var n = Rand.range(options.depthMin-depth, options.depthMax-depth);
     for(var i = 0; i < n; i++) {
-      el.appendChild(gen(depth + 1, tag));
+      var child = el.appendChild(gen(depth + 1, tag));
     }
+    el.depth = depth;
+    el.tag = tag;
     return el;
   }
 
-
   window.onload = function() {
-    document.body.appendChild(gen(0, 0));
+    document.body.replaceChild(gen(0, 0), document.body.childNodes[0]);
+    var shuffle = function() {
+      var n = Rand.range(100,200);
+      for(var i = 0; i < n; i++) {
+        var el = Find.element(document.body, 0, document.body);
+        el.parentNode.replaceChild(gen(el.depth, el.tag), el);
+      }
+    };
+    return;
+    for(var i = 1; i < 10; i++) {
+      setTimeout(shuffle, i*20000);
+    }
   };
 })();
