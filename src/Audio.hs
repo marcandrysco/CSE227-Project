@@ -1,3 +1,4 @@
+{-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE RecordWildCards #-}
 module Audio where
@@ -7,10 +8,12 @@ import Data.Binary.Bits
 import Data.Binary.Bits.Get
 import Data.Binary.Bits.Put
 import Data.ByteString
+import Data.ByteString.Internal
 import Data.Word
+import Foreign
 import Test.QuickCheck.Arbitrary
 import Test.QuickCheck.Gen
-
+import Test.QuickCheck.Random
 
 data MpgFrame
   = MpgFrame
@@ -44,11 +47,22 @@ instance Arbitrary MpgFrame where
     mpgOrig    <- arbitrary
     mpgEmph    <- arbitrary
     dataLen    <- choose (250000, 500000)
-    randomShit <- infiniteListOf arbitrary
-    let uf (w:ws) = Just (w, ws)
-    let mpgData = fst $ unfoldrN dataLen uf randomShit
-    -- mpgData    <- fmap pack (vectorOf dataLen arbitrary)
+    -- randomShit <- infiniteListOf arbitrary
+    -- let uf (w:ws) = Just (w, ws)
+    -- let mpgData = fst $ unfoldrN dataLen uf randomShit
+    -- -- mpgData    <- fmap pack (vectorOf dataLen arbitrary)
+    qcgen      <- getQCGen
+    let mpgData = unsafeCreate dataLen $ \p ->
+                    let go !n | n == dataLen
+                              = return ()
+                              | otherwise
+                              = do pokeByteOff p n (unGen arbitrary qcgen 42 :: Word8)
+                                   go (n+1)
+                    in go 0
     return MpgFrame {..}
+
+getQCGen :: Gen QCGen
+getQCGen = MkGen $ \q _ -> q
 
 instance Binary MpgFrame where
   put MpgFrame {..}
