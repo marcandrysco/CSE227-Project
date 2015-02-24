@@ -3,7 +3,7 @@ module Main where
 
 import Control.Monad
 import Control.Monad.IO.Class
-import Data.Binary (encode)
+-- import Data.Binary (encode)
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Internal as B
 import qualified Data.ByteString.Lazy as LB
