@@ -81,6 +81,7 @@
     /* audio element */
     audio: function() {
       var el = document.createElement("audio");
+      var types = ["mpeg", "corrupt-mpeg", "corrupt-ogg", "corrupt-wav", "corrupt-wma"];
       if(Rand.bool(0.2)) { el.style.position = ["static", "relative", "absolute", "fixed", "sticky"][Rand.index(5)]; }
       if(Rand.bool()) { el.style.width = Rand.range(0, 100); el.style.height = Rand.range(0, 100); }
       if(Rand.bool()) { el.style.backgroundColor = "rgb(" + Rand.index(256) + "," + Rand.index(256) + "," + Rand.index(256) + ")"; }
@@ -89,7 +90,7 @@
       if(Rand.bool()) { el.loop = true; }
       if(Rand.bool()) { el.autoplay = true; }
       if(Rand.bool()) { el.muted = true; }
-      if(Rand.bool(0.8)) { el.src = "http://localhost:9000/" + Rand.element(["mp3","corrupt-mp3"]) + "?seed=" + Rand.next() }
+      if(Rand.bool(0.8)) { el.src = "http://localhost:9000/" + Rand.element(types) + "?seed=" + Rand.next() }
       return el;
     },
     /* audio element */
@@ -151,7 +152,6 @@
         el.parentNode.replaceChild(gen(el.depth, el.tag), el);
       }
     };
-    return;
     for(var i = 1; i < 10; i++) {
       setTimeout(shuffle, i*20000);
     }
