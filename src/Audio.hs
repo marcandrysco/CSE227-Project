@@ -9,11 +9,12 @@ import Data.Bits
 -- import Data.Binary.Bits
 -- import Data.Binary.Bits.Get
 -- import Data.Binary.Bits.Put
-import Data.ByteString
+import Data.ByteString hiding (split)
 import Data.ByteString.Internal
 import qualified Data.ByteString.Lazy as LB
 import Data.Word
 import Foreign
+import System.Random
 import Test.QuickCheck.Arbitrary
 import Test.QuickCheck.Gen
 import Test.QuickCheck.Random
@@ -56,12 +57,13 @@ instance Arbitrary MpgFrame where
     -- -- mpgData    <- fmap pack (vectorOf dataLen arbitrary)
     qcgen      <- getQCGen
     let mpgData = unsafeCreate dataLen $ \p ->
-                    let go !n | n == dataLen
-                              = return ()
-                              | otherwise
-                              = do pokeByteOff p n (unGen arbitrary qcgen 42 :: Word8)
-                                   go (n+1)
-                    in go 0
+                    let go !n q | n == dataLen
+                                = return ()
+                                | otherwise
+                                = do let (q1,q2) = split q
+                                     pokeByteOff p n (unGen arbitrary q1 42 :: Word8)
+                                     go (n+1) q2
+                    in go 0 qcgen
     return MpgFrame {..}
 
 getQCGen :: Gen QCGen
