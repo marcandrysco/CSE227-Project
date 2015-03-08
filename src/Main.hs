@@ -42,26 +42,18 @@ main = scotty 9000 $ do
     addHeader "Content-Type" "audio/mpeg"
     raw mpeg
 
-  get "/corrupt-mpeg" $ do
-    seed <- param "seed"
-    mpeg <- liftIO $ corrupt seed "dat/test.mp3"
-    addHeader "Content-Type" "audio/mpeg"
-    raw $ LB.fromStrict mpeg
+  corruptFile "/corrupt-mpeg" "dat/test.mp3"   "audio/mpeg"
+  corruptFile "/corrupt-ogg"  "dat/test.ogg"   "audio/ogg"
+  corruptFile "/corrupt-wav"  "dat/test.wav"   "audio/wav"
+  corruptFile "/corrupt-wma"  "dat/test.wma"   "audio/x-ms-wma"
+  corruptFile "/corrupt-mp4"  "dat/small.mp4"  "video/mp4"
+  corruptFile "/corrupt-ogv"  "dat/small.ogv"  "video/ogg"
+  corruptFile "/corrupt-webm" "dat/small.webm" "video/webm"
+  corruptFile "/corrupt-3gp"  "dat/small.3gp"  "video/3gp"
+  corruptFile "/corrupt-flv"  "dat/small.flv"  "video/x-flv"
 
-  get "/corrupt-ogg" $ do
-    seed <- param "seed"
-    mpeg <- liftIO $ corrupt seed "dat/test.ogg"
-    addHeader "Content-Type" "audio/ogg"
-    raw $ LB.fromStrict mpeg
-
-  get "/corrupt-wav" $ do
-    seed <- param "seed"
-    mpeg <- liftIO $ corrupt seed "dat/test.wav"
-    addHeader "Content-Type" "audio/wav"
-    raw $ LB.fromStrict mpeg
-
-  get "/corrupt-wma" $ do
-    seed <- param "seed"
-    mpeg <- liftIO $ corrupt seed "dat/test.wma"
-    addHeader "Content-Type" "audio/x-ms-wma"
-    raw $ LB.fromStrict mpeg
+corruptFile path file ctype = get path $ do
+  seed <- param "seed"
+  body <- liftIO $ corrupt seed file
+  addHeader "Content-Type" ctype
+  raw $ LB.fromStrict body
