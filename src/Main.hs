@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
 
+import Control.Applicative
 import Control.Monad
 import Control.Monad.IO.Class
 -- import Data.Binary (encode)
@@ -23,12 +24,13 @@ generateWith s g = unGen g (mkQCGen s) 42
 -- | Randomly corrupt a given file based on a seed.
 corrupt :: Int -> FilePath -> IO B.ByteString
 corrupt s f = do
-  let gen = generateWith s
   body@(B.PS fp o l) <- B.readFile f
-  let count = gen arbitrary
-  withForeignPtr fp $ \p -> void $ replicateM count $ do
-    let idx = gen $ choose (0, l-1)
-    let rep = gen arbitrary :: Word8
+  let idxs = generateWith s $ do
+               count <- choose (10, 10000)
+               replicateM count $ 
+                 (,) <$> choose (0, l-1) 
+                     <*> (arbitrary :: Gen Word8)
+  withForeignPtr fp $ \p -> forM_ idxs $ \(idx, rep) ->
     pokeByteOff p (o+idx) rep
   return body
 

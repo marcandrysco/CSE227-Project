@@ -96,6 +96,7 @@
     /* audio element */
     video: function() {
       var el = document.createElement("video");
+      var types = ["corrupt-mp4", "corrupt-ogv", "corrupt-webm", "corrupt-3gp", "corrupt-flv"];
       if(Rand.bool(0.2)) { el.style.position = ["static", "relative", "absolute", "fixed", "sticky"][Rand.index(5)]; }
       if(Rand.bool()) { el.style.width = Rand.range(0, 100); el.style.height = Rand.range(0, 100); }
       if(Rand.bool()) { el.style.backgroundColor = "rgb(" + Rand.index(256) + "," + Rand.index(256) + "," + Rand.index(256) + ")"; }
@@ -104,6 +105,7 @@
       if(Rand.bool()) { el.loop = true; }
       if(Rand.bool()) { el.autoplay = true; }
       if(Rand.bool()) { el.muted = Rand.bool(); }
+      if(Rand.bool(0.8)) { el.src = "http://localhost:9000/" + Rand.element(types) + "?seed=" + Rand.next() }
       return el;
     }
   };
