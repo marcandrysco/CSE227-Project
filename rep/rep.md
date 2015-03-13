@@ -16,6 +16,8 @@ This is the technical section. It goes into detail.
 # Evaluation
 This is the evaluation. It explains how we tested our ideas / implementation, and presents interesting results.
 
+By randomly corrupting MPEG-4 video files, we were able to trigger a segfault in Firefox's custom memory allocator.
+
 # Related Work
 This is the related work. It talks about stuff other people have done that is similar to what we did.
 
