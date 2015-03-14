@@ -1,0 +1,167 @@
+Anonymous UUID:       77932E22-F125-400D-FBCE-FC5DE3681895
+
+Sat Mar 14 11:17:27 2015
+
+*** Panic Report ***
+panic(cpu 3 caller 0xffffff800481a46e): Kernel trap at 0x0000000000000000, type 14=page fault, registers:
+CR0: 0x000000008001003b, CR2: 0x0000000000000000, CR3: 0x00000004465850b6, CR4: 0x00000000001627e0
+RAX: 0xffffff80337c6800, RBX: 0xffffff80246fc000, RCX: 0x0000000000000001, RDX: 0x7fffffffffffffff
+RSP: 0xffffff81eef8bb78, RBP: 0xffffff81eef8bbc0, RSI: 0x0000000000000002, RDI: 0xffffff80337c6c00
+R8:  0x00000000000001b7, R9:  0x0000000000000000, R10: 0x0000000000000000, R11: 0xffffff8008515970
+R12: 0xffffff8004f10f08, R13: 0xffffff8004e29750, R14: 0xffffff80337c6c00, R15: 0xffffff80337b0180
+RFL: 0x0000000000010282, RIP: 0x0000000000000000, CS:  0x0000000000000008, SS:  0x0000000000000000
+Fault CR2: 0x0000000000000000, Error code: 0x0000000000000010, Fault CPU: 0x3
+
+Backtrace (CPU 3), Frame : Return Address
+0xffffff81eef8b820 : 0xffffff800472fe41 
+0xffffff81eef8b8a0 : 0xffffff800481a46e 
+0xffffff81eef8ba60 : 0xffffff8004836683 
+0xffffff81eef8ba80 : 0x0 
+0xffffff81eef8bbc0 : 0xffffff7f866dcdb8 
+0xffffff81eef8bc00 : 0xffffff7f866ebd39 
+0xffffff81eef8bc30 : 0xffffff7f866dd7c9 
+0xffffff81eef8bc50 : 0xffffff7f867416c8 
+0xffffff81eef8bc70 : 0xffffff7f866dd62c 
+0xffffff81eef8bca0 : 0xffffff7f866eb845 
+0xffffff81eef8bd00 : 0xffffff8004cb6371 
+0xffffff81eef8bd50 : 0xffffff8004cfda75 
+0xffffff81eef8bdc0 : 0xffffff80047e4f5e 
+0xffffff81eef8be10 : 0xffffff8004733f8c 
+0xffffff81eef8be40 : 0xffffff8004718a93 
+0xffffff81eef8be90 : 0xffffff80047293bd 
+0xffffff81eef8bf10 : 0xffffff80048059fa 
+0xffffff81eef8bfb0 : 0xffffff8004836ea6 
+      Kernel Extensions in backtrace:
+         com.apple.iokit.IOAcceleratorFamily2(156.6.1)[9D837BF9-D1FE-353B-8FF9-6C1047331A82]@0xffffff7f866c2000->0xffffff7f8672efff
+            dependency: com.apple.iokit.IOPCIFamily(2.9)[56AD16B5-4F29-3F74-93E7-D492B3966DE2]@0xffffff7f84f24000
+            dependency: com.apple.iokit.IOGraphicsFamily(2.4.1)[619F6C9F-0461-3BA1-A75F-53BB0F87ACD3]@0xffffff7f857d4000
+         com.apple.driver.AppleIntelHD5000Graphics(10.0.2)[E13FFD1E-1AE6-3A78-8929-8B73C9E593A0]@0xffffff7f8673d000->0xffffff7f8679bfff
+            dependency: com.apple.iokit.IOSurface(97)[B4E2654D-4087-3875-9D59-E899A0A04F0E]@0xffffff7f856cb000
+            dependency: com.apple.iokit.IOPCIFamily(2.9)[56AD16B5-4F29-3F74-93E7-D492B3966DE2]@0xffffff7f84f24000
+            dependency: com.apple.iokit.IOGraphicsFamily(2.4.1)[619F6C9F-0461-3BA1-A75F-53BB0F87ACD3]@0xffffff7f857d4000
+            dependency: com.apple.iokit.IOAcceleratorFamily2(156.6.1)[9D837BF9-D1FE-353B-8FF9-6C1047331A82]@0xffffff7f866c2000
+
+BSD process name corresponding to current thread: VTDecoderXPCServ
+
+Mac OS version:
+14C1510
+
+Kernel version:
+Darwin Kernel Version 14.1.0: Thu Feb 26 19:26:47 PST 2015; root:xnu-2782.10.73~1/RELEASE_X86_64
+Kernel UUID: 270413F7-3B44-3602-894F-AC0D392FCF8E
+Kernel slide:     0x0000000004400000
+Kernel text base: 0xffffff8004600000
+__HIB  text base: 0xffffff8004500000
+System model name: MacBookPro11,1 (Mac-189A3D4F975D5FFC)
+
+System uptime in nanoseconds: 109632310670
+last loaded kext at 5556668942: org.virtualbox.kext.VBoxNetAdp	4.3.24 (addr 0xffffff7f86d52000, size 28672)
+last unloaded kext at 104680491285: com.apple.driver.AppleIntelLpssI2C	2.0.55 (addr 0xffffff7f8669f000, size 36864)
+loaded kexts:
+org.virtualbox.kext.VBoxNetAdp	4.3.24
+org.virtualbox.kext.VBoxNetFlt	4.3.24
+org.virtualbox.kext.VBoxUSB	4.3.24
+org.virtualbox.kext.VBoxDrv	4.3.24
+com.apple.filesystems.autofs	3.0
+com.apple.driver.AudioAUUC	1.70
+com.apple.iokit.IOBluetoothSerialManager	4.3.2f6
+com.apple.driver.AGPM	100.15.5
+com.apple.driver.ApplePlatformEnabler	2.1.7d1
+com.apple.driver.X86PlatformShim	1.0.0
+com.apple.driver.AppleHDA	269.25
+com.apple.driver.AppleUpstreamUserClient	3.6.1
+com.apple.driver.AppleOSXWatchdog	1
+com.apple.driver.AppleThunderboltIP	2.0.2
+com.apple.iokit.IOUserEthernet	1.0.1
+com.apple.Dont_Steal_Mac_OS_X	7.0.0
+com.apple.driver.AppleHWAccess	1
+com.apple.driver.AppleIntelHD5000Graphics	10.0.2
+com.apple.driver.AppleSMCLMU	2.0.7d0
+com.apple.driver.AppleHV	1
+com.apple.driver.AppleIntelFramebufferAzul	10.0.2
+com.apple.driver.AppleCameraInterface	5.29.0
+com.apple.iokit.BroadcomBluetoothHostControllerUSBTransport	4.3.2f6
+com.apple.driver.AppleLPC	1.7.3
+com.apple.driver.AppleBacklight	170.5.0
+com.apple.driver.AppleMCCSControl	1.2.11
+com.apple.driver.AppleUSBTCButtons	240.2
+com.apple.driver.AppleUSBTCKeyboard	240.2
+com.apple.driver.AppleUSBCardReader	3.5.1
+com.apple.AppleFSCompression.AppleFSCompressionTypeDataless	1.0.0d1
+com.apple.AppleFSCompression.AppleFSCompressionTypeZlib	1.0.0d1
+com.apple.BootCache	35
+com.apple.driver.AppleUSBHub	705.4.2
+com.apple.driver.XsanFilter	404
+com.apple.iokit.IOAHCIBlockStorage	2.7.0
+com.apple.driver.AppleAHCIPort	3.1.0
+com.apple.driver.AirPort.Brcm4360	910.26.12
+com.apple.driver.AppleUSBXHCI	710.4.11
+com.apple.driver.AppleSmartBatteryManager	161.0.0
+com.apple.driver.AppleRTC	2.0
+com.apple.driver.AppleACPIButtons	3.1
+com.apple.driver.AppleHPET	1.8
+com.apple.driver.AppleSMBIOS	2.1
+com.apple.driver.AppleACPIEC	3.1
+com.apple.driver.AppleAPIC	1.7
+com.apple.nke.applicationfirewall	161
+com.apple.security.quarantine	3
+com.apple.security.TMSafetyNet	8
+com.apple.kext.triggers	1.0
+com.apple.driver.DspFuncLib	269.25
+com.apple.kext.OSvKernDSPLib	1.15
+com.apple.iokit.IOSurface	97
+com.apple.driver.AppleHDAController	269.25
+com.apple.iokit.IOHDAFamily	269.25
+com.apple.iokit.IOAudioFamily	203.3
+com.apple.vecLib.kext	1.2.0
+com.apple.driver.X86PlatformPlugin	1.0.0
+com.apple.driver.AppleSMC	3.1.9
+com.apple.AppleGraphicsDeviceControl	3.8.6
+com.apple.iokit.IOAcceleratorFamily2	156.6.1
+com.apple.iokit.IOBluetoothHostControllerUSBTransport	4.3.2f6
+com.apple.iokit.IOBluetoothFamily	4.3.2f6
+com.apple.iokit.IOUSBUserClient	705.4.0
+com.apple.driver.IOPlatformPluginFamily	5.8.1d38
+com.apple.iokit.IOSerialFamily	11
+com.apple.driver.AppleBacklightExpert	1.1.0
+com.apple.iokit.IONDRVSupport	2.4.1
+com.apple.driver.AppleSMBusController	1.0.13d1
+com.apple.iokit.IOGraphicsFamily	2.4.1
+com.apple.driver.AppleUSBMultitouch	245.2
+com.apple.iokit.IOUSBHIDDriver	705.4.0
+com.apple.iokit.IOSCSIBlockCommandsDevice	3.7.3
+com.apple.iokit.IOUSBMassStorageClass	3.7.1
+com.apple.iokit.IOSCSIArchitectureModelFamily	3.7.3
+com.apple.driver.AppleUSBMergeNub	705.4.0
+com.apple.driver.AppleUSBComposite	705.4.9
+com.apple.driver.CoreStorage	471.10.6
+com.apple.driver.AppleThunderboltDPInAdapter	4.0.6
+com.apple.driver.AppleThunderboltDPAdapterFamily	4.0.6
+com.apple.driver.AppleThunderboltPCIDownAdapter	2.0.2
+com.apple.iokit.IOAHCIFamily	2.7.5
+com.apple.driver.AppleThunderboltNHI	3.1.7
+com.apple.iokit.IOThunderboltFamily	4.2.1
+com.apple.iokit.IO80211Family	710.55
+com.apple.driver.mDNSOffloadUserClient	1.0.1b8
+com.apple.iokit.IONetworkingFamily	3.2
+com.apple.iokit.IOUSBFamily	710.4.14
+com.apple.driver.AppleEFINVRAM	2.0
+com.apple.driver.AppleEFIRuntime	2.0
+com.apple.iokit.IOHIDFamily	2.0.0
+com.apple.iokit.IOSMBusFamily	1.1
+com.apple.security.sandbox	300.0
+com.apple.kext.AppleMatch	1.0.0d1
+com.apple.driver.AppleKeyStore	2
+com.apple.driver.AppleMobileFileIntegrity	1.0.5
+com.apple.driver.AppleCredentialManager	1.0
+com.apple.driver.DiskImages	396
+com.apple.iokit.IOStorageFamily	2.0
+com.apple.iokit.IOReportFamily	31
+com.apple.driver.AppleFDEKeyStore	28.30
+com.apple.driver.AppleACPIPlatform	3.1
+com.apple.iokit.IOPCIFamily	2.9
+com.apple.iokit.IOACPIFamily	1.4
+com.apple.kec.Libm	1
+com.apple.kec.corecrypto	1.0
+com.apple.kec.pthread	1
+
