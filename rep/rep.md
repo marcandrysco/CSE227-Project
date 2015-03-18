@@ -36,20 +36,22 @@ critical bugs, allowing a malicious website to crash the browser and sometimes
 even crash the entire operating system. These bugs warrant further
 investigation as they may be attack vectors for exploits.
 
-# Overview
-This is the overview. It describes at a high level what we did.
-
 # A Media Fuzzing Web Page and Server
 
-All pages are deterministically generated via a seed parameter that can
-be passed to the page. The seed allows the user to reproduce crashes
-given a fixed seed; however, crashes due to race conditions or timing
-bugs are frequently not deterministic, and create bugs that are
-difficult to reproduce. All references to randomly generated data refer
-to random generation based on this fixed seed.
+Our goal is to uncover bugs in web browser implementations of media
+decoders and players, thus we must generate both random media files and
+random pages that embed the files. To this end we built a web server
+that serves random media files, and a javascript application the creates
+random page layouts.
 
-User-land crashes are detected and analyzed by running the browser under a
-debugger.
+Reproducibility is paramount for diagnosing the source of any uncovered
+bugs, thus all of the randomness in our system is actually
+deterministically simulated based on a user-configurable seed
+parameter. All future references to randomly generated data in this
+section refer to "random" generation based on a fixed seed.
+
+User-land crashes are detected and analyzed by running the browser under
+a debugger.
 
 ## Random Page Layout
 
@@ -78,7 +80,11 @@ requests from the fuzzing page and creates random MP3s on demand.
 
 ## Corrupted Audio and Video Media
 
-In addition to structurally fuzzing MP3 files, we randomly corrupt valid files from a range of other media standards, including MPEG-4, Ogg Vorbis, Flash video, etc. We gathered a single sample file per format and randomly overwrite between 10 and 10,000 bytes on demand, via the web server.
+In addition to structurally fuzzing MP3 files, we randomly corrupt valid
+files from a range of other media standards, including MPEG-4, Ogg
+Vorbis, Flash video, etc. We gathered a single sample file per format
+and randomly overwrite between 10 and 10,000 individual bytes on demand,
+via the web server.
 
 This approach scales much better than structured fuzzing as we do not need to model the myriad media formats, we only need valid sample files.
 
@@ -131,20 +137,22 @@ that forces the user to reboot the entire system. The panic occurs while
 executing privileged code in a sandboxed process dedicated to decoding
 video. Our analysis found that the panic only occurs when attempting to
 play hundreds of corrupt video files simultaneously. This leads us to
-believe that the bug is caused by a race condition when subjecting the
-sandboxed process with a heavy load.
+believe that the bug is caused by a race condition that occurs when
+subjecting the sandboxed process to a heavy load.
 
-Upon inspecting the resulting kernel panic, we noticed that error code varied
-between a general protection fault and page fault. Typically, the instruction
-pointer was set to either the value `0x0000000000000000` or
-`0xFFFFFFFFFFFFFFFF` indicating an invalid jump or return. While the error was
-very quick to reproduce, only requiring a few seconds, we were unable to find a
-reliable method of producing identical kernel panics. Because this crash
-affect privileged code, we find the bug particularly worrisome and plan to
-investigate further.
+Upon inspecting the resulting kernel panic, we noticed that error code
+varied between a general protection fault and a page fault. Typically,
+the instruction pointer was set to either the value `0x0000000000000000`
+or `0xFFFFFFFFFFFFFFFF` indicating an invalid jump or return. While the
+error was very quick to reproduce, only requiring a few seconds, we were
+unable to find a reliable method of producing identical kernel
+panics. Because this crash affect privileged code, we find the bug
+particularly worrisome and plan to investigate further.
 
 # Related Work
 This is the related work. It talks about stuff other people have done that is similar to what we did.
+
+In contrast to our approach, which treats the browser as a black-box, white-box fuzzing symbolically executes the program it is testing in order to group equivalent inputs. [SAGE] 
 
 # Conclusion
 This is the conclusion. It reminds people of what we just said.
@@ -155,6 +163,7 @@ This is the conclusion. It reminds people of what we just said.
 [CREST]: http://jburnim.github.io/crest/
 [KLEE]: https://klee.github.io
 [AEG]: http://security.ece.cmu.edu/aeg/
+[SAGE]: http://research.microsoft.com/en-us/projects/atg/ndss2008.pdf
 [paper]: http://dl.acm.org/citation.cfm?id=2541977
 [V8]: https://code.google.com/p/v8/
 [address disclosure vulnerabilities]: http://blog.beyondtrust.com/zd_threat/internet-explorer-9-memory-disclosure
