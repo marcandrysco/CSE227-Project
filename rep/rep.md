@@ -39,8 +39,7 @@ investigation as they may be attack vectors for exploits.
 # Overview
 This is the overview. It describes at a high level what we did.
 
-# What do we call this section?
-This is the technical section. It goes into detail.
+# A Media Fuzzing Web Page and Server
 
 All pages are deterministically generated via a seed parameter that can
 be passed to the page. The seed allows the user to reproduce crashes
@@ -70,11 +69,18 @@ content layed out in an unexpected fashion.
 
 ## Structured Random Audio Media
 
+We generate random MP3 audio files from a simple description of the
+format as a Haskell datatype, using the [QuickCheck] library. For each
+metadata field, we randomly choose valid or invalid values, in order to
+exercise a variety of code paths. We generate 250-500KB of random data
+for the actual audio stream. A simple web server then listens for
+requests from the fuzzing page and creates random MP3s on demand.
 
 ## Corrupted Audio and Video Media
 
-Corrupted media is generated based on valid media files to generate introduce
-subtle errors in what would otherwise be a valid file. 
+In addition to structurally fuzzing MP3 files, we randomly corrupt valid files from a range of other media standards, including MPEG-4, Ogg Vorbis, Flash video, etc. We gathered a single sample file per format and randomly overwrite between 10 and 10,000 bytes on demand, via the web server.
+
+This approach scales much better than structured fuzzing as we do not need to model the myriad media formats, we only need valid sample files.
 
 # Evaluation
 
@@ -91,13 +97,15 @@ in Internet Explorer.
 
 ## Firefox Metadata Segfault
 
-Specific types of corruption of MPEG-4 video files causes an immediate crash
+Specific types of corruption of MPEG-4 video files cause an immediate crash
 of Firefox. Our investigation of the bug revealed that an uninitialized
 pointer is passed to the free function, causing a segmentation fault. In our
 limited testing, we were unable to determine if an attacker could control the
 unitialized pointer value in order to perform a remote exploit. Even without
 the ability to control the pointer value, an malicious website can easily
 crash the Firefox, closing all open windows and tabs.
+
+We traced the bug down to the following code.
 
 ```c
 GError* error;
@@ -108,27 +116,26 @@ g_error_free(error);
 g_free(debug);
 ```
 
-We traced the bug down to the previous code. In particular, the debug pointer
-is uninitialized before the call to `gst_message_parse_error`. The
-documentation states that "the values returned in the output arguments are
-copies; the caller must free them when done." However, calling
-`gst_message_parse_error` on the specially crafted MPEG-4 file prevents the
-call from ever writing to debug and the unitialized value is then passed to
-`g_free`. The allocator attempts to free the value, causing the segmentation
-fault.
+In particular, the debug pointer is uninitialized before the call to
+`gst_message_parse_error`. The documentation states that "the values
+returned in the output arguments are copies; the caller must free them
+when done." However, calling `gst_message_parse_error` on the specially
+crafted MPEG-4 file prevents the call from ever writing to debug and the
+unitialized value is then passed to `g_free`. The allocator attempts to
+free the value, causing the segmentation fault.
 
 ## Mac OS X Kernel Panic
 
-Running our framework using Firefox in Mac OS X causes a kernel panic that
-forces the user to reboot the entire system. The panic occurs while executing
-privileged code in a sandboxed process dedicated to decoding video. Our
-analysis found that the panic only occurs when simultaneously attempting to
-play hundreds of corrupt video files simultaneously. This leads us to believe
-that the bug is caused by a race condition when subjecting the sandboxed
-process with a heavy load.
+Running our framework using Firefox in Mac OS X causes a kernel panic
+that forces the user to reboot the entire system. The panic occurs while
+executing privileged code in a sandboxed process dedicated to decoding
+video. Our analysis found that the panic only occurs when attempting to
+play hundreds of corrupt video files simultaneously. This leads us to
+believe that the bug is caused by a race condition when subjecting the
+sandboxed process with a heavy load.
 
-When inspecting the resulting kernel panic, we noticed that error code varied
-between a general protection fault or a page fault. Typically, the instruction
+Upon inspecting the resulting kernel panic, we noticed that error code varied
+between a general protection fault and page fault. Typically, the instruction
 pointer was set to either the value `0x0000000000000000` or
 `0xFFFFFFFFFFFFFFFF` indicating an invalid jump or return. While the error was
 very quick to reproduce, only requiring a few seconds, we were unable to find a
@@ -154,3 +161,4 @@ This is the conclusion. It reminds people of what we just said.
 [arbitrary code execution]: https://bugzilla.mozilla.org/show_bug.cgi?id=796866
 [cross-site scripting]: http://net-security.org/dl/articles/WHXSSThreats.pdf
 [denial-of-service bugs]: https://www.evilfingers.com/advisory/Google_Chrome_Browser_0.2.149.27_in_chrome_dll.php
+[QuickCheck]: http://hackage.haskell.org/package/QuickCheck
