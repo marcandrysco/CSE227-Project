@@ -26,11 +26,11 @@ Mozzila developers for fuzz testing the Firefox javascript engine.
 
 These have focused on previously untested portions of web standard, especially
 on Javascript, which rapidly became the core programming language of the web.
-Our tool provides a framework for fuzz testing media content with focus on the
+Our tool provides a framework for fuzz testing media content with a focus on the
 audio and video tags. Unlike generalized fuzz testing tools, our tool targets
 the audio and video tags with randomized data, both generated structurally
 from the media format specifications and by corrupted otherwise valid,
-properly handed media files. Using our techniques, we are able to exercise
+properly handled media files. Using our techniques, we are able to exercise
 critical bugs, allowing a malicious website to crash the browser and sometimes
 even crash the entire operating system. These bugs warrant further
 investigation as they may be attack vectors for exploits.
@@ -41,11 +41,12 @@ This is the overview. It describes at a high level what we did.
 # What do we call this section?
 This is the technical section. It goes into detail.
 
-All pages are deterministically generated via a seed parameter that can be
-passed to the page. The seed allows the user to reproduce crashes given a
-fixed seed; however, crashes due to race conditions or timing bugs are
-frequently not deterministic create hard to reproduce bugs. All references to
-randomly generated data refer to random generation based on this fixed seed.
+All pages are deterministically generated via a seed parameter that can
+be passed to the page. The seed allows the user to reproduce crashes
+given a fixed seed; however, crashes due to race conditions or timing
+bugs are frequently not deterministic, and create bugs that are
+difficult to reproduce. All references to randomly generated data refer
+to random generation based on this fixed seed.
 
 User-land crashes are detected and analyzed by running the browser under a
 debugger.
