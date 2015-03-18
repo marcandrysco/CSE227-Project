@@ -2,6 +2,7 @@
 % Marc Andrysco and Eric Seidel
 
 # Abstract
+
 This is the abstract. It convinces people to read the report.
 
 # Introduction
@@ -77,9 +78,63 @@ subtle errors in what would otherwise be a valid file.
 
 # Evaluation
 
-This is the evaluation. It explains how we tested our ideas / implementation, and presents interesting results.
+Using our framework for fuzzing data inputs, we were able to trigger a wide
+range of crashing bugs. In particular, we noticed that MPEG-4 video files
+caused the largest number of bugs, likely due to the video format's
+complexity. Firefox was especially vulnerable to crashing when parsing corrupt
+video data on all platforms. After filtering out videos that expose crashes,
+our framework caused Firefox to quickly consume all available memory. Crashes
+were less reliable on Chrome; typically, the isolated tab would crash,
+although there were a few instances where the entire browser was taken down.
+On the other hand, our testing was never able to cause crashes or memory leaks
+in Internet Explorer.
 
-By randomly corrupting MPEG-4 video files, we were able to trigger a segfault in Firefox's custom memory allocator.
+## Firefox Metadata Segfault
+
+Specific types of corruption of MPEG-4 video files causes an immediate crash
+of Firefox. Our investigation of the bug revealed that an uninitialized
+pointer is passed to the free function, causing a segmentation fault. In our
+limited testing, we were unable to determine if an attacker could control the
+unitialized pointer value in order to perform a remote exploit. Even without
+the ability to control the pointer value, an malicious website can easily
+crash the Firefox, closing all open windows and tabs.
+
+```c
+GError* error;
+gchar* debug;
+gst_message_parse_error(message, &error, &debug);
+//...
+g_error_free(error);
+g_free(debug);
+```
+
+We traced the bug down to the previous code. In particular, the debug pointer
+is uninitialized before the call to `gst_message_parse_error`. The
+documentation states that "the values returned in the output arguments are
+copies; the caller must free them when done." However, calling
+`gst_message_parse_error` on the specially crafted MPEG-4 file prevents the
+call from ever writing to debug and the unitialized value is then passed to
+`g_free`. The allocator attempts to free the value, causing the segmentation
+fault.
+
+## Mac OS X Kernel Panic
+
+Running our framework using Firefox in Mac OS X causes a kernel panic that
+forces the user to reboot the entire system. The panic occurs while executing
+privileged code in a sandboxed process dedicated to decoding video. Our
+analysis found that the panic only occurs when simultaneously attempting to
+play hundreds of corrupt video files simultaneously. This leads us to believe
+that the bug is caused by a race condition when subjecting the sandboxed
+process with a heavy load.
+
+When inspecting the resulting kernel panic, we noticed that error code varied
+between a general protection fault or a page fault. Typically, the instruction
+pointer was set to either the value `0x0000000000000000` or
+`0xFFFFFFFFFFFFFFFF` indicating an invalid jump or return. While the error was
+very quick to reproduce, only requiring a few seconds, we were unable to find a
+reliable method of producing identical kernel panics. Because this crash
+affect privileged code, we find the bug particularly worrisome and plan to
+investigate further.
 
 # Related Work
 This is the related work. It talks about stuff other people have done that is similar to what we did.
