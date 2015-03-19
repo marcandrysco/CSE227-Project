@@ -177,6 +177,21 @@ values. Mozzila has developed the [JSFunFuzz] tool for testing the Javascript
 engine of Firefox. Peach Fuzzer provides a general method of creating random
 data based on a XML specification.
 
+# Future Work
+
+Our work showns that fuzzing inputs to the browser is a viable method of
+finding severe bugs, many of which have the potention to become exploits.
+This leaves room for additional, more comprehensive fuzzing tools that can
+test a wider range of the web standards.
+
+Based on the fact that a majority of bugs were discovered by performing random
+perturbations on valid inputs, we believe that there is significant potential
+for building tools to crawl existing websites using a proxy that can perform
+deterministic corruption of data. Such a method allows for simplified fuzz
+testing of all web technologies currently in use, and provides the added
+benifit that future standards will be automatically tested as they become used
+by the public.
+
 # Conclusion
 
 Fuzz testing is not a new idea, and media formats are a well-known
