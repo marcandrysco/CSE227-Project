@@ -188,7 +188,7 @@ data based on a XML specification.
 # Future Work
 
 Our work showns that fuzzing inputs to the browser is a viable method of
-finding severe bugs, many of which have the potention to become exploits.
+finding severe bugs, many of which have the potential to become exploits.
 This leaves room for additional, more comprehensive fuzzing tools that can
 test a wider range of the web standards.
 
