@@ -86,7 +86,8 @@ Vorbis, Flash video, etc. We gathered a single sample file per format
 and randomly overwrite between 10 and 10,000 individual bytes on demand,
 via the web server.
 
-This approach scales much better than structured fuzzing as we do not need to model the myriad media formats, we only need valid sample files.
+This approach scales much better than structured fuzzing as we do not
+need to model the myriad media formats, we only need valid sample files.
 
 # Evaluation
 
