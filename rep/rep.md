@@ -178,7 +178,12 @@ data based on a XML specification.
 
 # Conclusion
 
-This is the conclusion. It reminds people of what we just said.
+Fuzz testing is not a new idea, and media formats are a well-known
+source of security vulnerabilities. However, our experience suggests
+that browser vendors do not test their software in a sufficiently
+adversarial manner. We have shown that it is both easy and effective to
+fuzz test the media players shipped with modern browsers, and recommend
+the vendors do so as well.
 
 [ClusterFuzz]: https://code.google.com/p/clusterfuzz/
 [Javascript-fuzz]: https://github.com/NodeGuy/JavaScript-fuzz
