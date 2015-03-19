@@ -171,8 +171,8 @@ knowledge nobody has successfully applied symbolic execution to a
 browser.
 
 The fuzzing tool [ClusterFuzz] performs fuzz tests for continuous integration
-of Chrome. The [Javascript-fuzz] tool is used for generating random Javscript
-values. Mozzila has developed the [JSFunFuzz] tool for testing the javascript
+of Chrome. The [Javascript-fuzz] tool is used for generating random Javascript
+values. Mozzila has developed the [JSFunFuzz] tool for testing the Javascript
 engine of Firefox. Peach Fuzzer provides a general method of creating random
 data based on a XML specification.
 
