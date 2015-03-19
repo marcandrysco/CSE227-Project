@@ -152,7 +152,19 @@ particularly worrisome and plan to investigate further.
 # Related Work
 This is the related work. It talks about stuff other people have done that is similar to what we did.
 
-In contrast to our approach, which treats the browser as a black-box, white-box fuzzing symbolically executes the program it is testing in order to group equivalent inputs. [SAGE] 
+In contrast to our approach, which treats the browser as a black-box,
+white-box fuzzing symbolically executes the program it is testing in
+order to group equivalent inputs. [SAGE] instruments an initial run of a
+program on a valid input and uses a generational search algorithm to
+enumerate further inputs that are very similar to the initial input. It
+has been used to find exploits in several undisclosed media formats as
+well as a Microsoft Office application. [AEG] combines the [KLEE]
+symbolic executor with a binary analysis to automatically generate
+working exploits, and found exploits in a variety of UNIX
+applications. Web browsers, however, are substantially larger than the
+programs tested by white-box approaches, and to the best of our
+knowledge nobody has successfully applied symbolic execution to a
+browser.
 
 # Conclusion
 This is the conclusion. It reminds people of what we just said.
