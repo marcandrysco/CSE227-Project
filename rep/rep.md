@@ -27,13 +27,13 @@ Mozzila developers for fuzz testing the Firefox javascript engine.
 
 These have focused on previously untested portions of web standard, especially
 on Javascript, which rapidly became the core programming language of the web.
-Our tool provides a framework for fuzz testing media content with a focus on the
-audio and video tags. Unlike generalized fuzz testing tools, our tool targets
-the audio and video tags with randomized data, both generated structurally
-from the media format specifications and by corrupted otherwise valid,
-properly handled media files. Using our techniques, we are able to exercise
-critical bugs, allowing a malicious website to crash the browser and sometimes
-even crash the entire operating system. These bugs warrant further
+Our tool provides a framework for fuzz testing media content with a focus on
+the audio and video tags. Unlike generalized fuzz testing tools, our tool
+targets the audio and video tags with randomized data, both generated
+structurally from the media format specifications and by corrupted otherwise
+valid, properly handled media files. Using our techniques, we are able to
+exercise critical bugs, allowing a malicious website to crash the browser and
+sometimes even crash the entire operating system. These bugs warrant further
 investigation as they may be attack vectors for exploits.
 
 # A Media Fuzzing Web Page and Server
@@ -128,12 +128,12 @@ returned in the output arguments are copies; the caller must free them
 when done." However, calling `gst_message_parse_error` on the specially
 crafted MPEG-4 file prevents the call from ever writing to debug and the
 unitialized value is then passed to `g_free`. The allocator attempts to
-free the value, causing the segmentation fault. Of interest, the sample code
+free the value, causing the segmentation fault. Interestingly, the sample code
 provideed by GStreamer sets `debug` to `NULL` before the function call and
-explicitly checks for `NULL` afterwards. While this suggests that that the caller
-code should handle `NULL` values, this requirement is not present in the
-documentation. We are therefore uncertain whether the bug belongs to Firefox
-or GStreamer.
+explicitly checks for `NULL` afterwards. While this suggests that that the
+caller code should handle `NULL` values, this requirement is not present in
+the documentation. We are therefore uncertain whether the bug belongs to
+Firefox or GStreamer.
 
 ## Mac OS X Kernel Panic
 
@@ -155,7 +155,6 @@ panics. Because this crash affect privileged code, we find the bug
 particularly worrisome and plan to investigate further.
 
 # Related Work
-This is the related work. It talks about stuff other people have done that is similar to what we did.
 
 In contrast to our approach, which treats the browser as a black-box,
 white-box fuzzing symbolically executes the program it is testing in
@@ -171,7 +170,14 @@ programs tested by white-box approaches, and to the best of our
 knowledge nobody has successfully applied symbolic execution to a
 browser.
 
+The fuzzing tool [ClusterFuzz] performs fuzz tests for continuous integration
+of Chrome. The [Javascript-fuzz] tool is used for generating random Javscript
+values. Mozzila has developed the [JSFunFuzz] tool for testing the javascript
+engine of Firefox. Peach Fuzzer provides a general method of creating random
+data based on a XML specification.
+
 # Conclusion
+
 This is the conclusion. It reminds people of what we just said.
 
 [ClusterFuzz]: https://code.google.com/p/clusterfuzz/
