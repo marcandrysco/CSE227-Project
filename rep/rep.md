@@ -1,9 +1,17 @@
-% Fuzzing HTML5
-% Marc Andrysco and Eric Seidel
+---
+title: Fuzzing HTML5
+author: Marc Andrysco and Eric Seidel
+abstract: |
+  Web browsers are adding increasingly many features from desktop
+  applications that require low-level support from the OS. We show that
+  these features, like native audio and video decoding, are not
+  well-tested from an adversarial perspective. We present a simple media
+  fuzzing web server that serves randomly corrupted media files from a
+  range of formats. We evaluate our system on current releases of modern
+  browsers and find that we are able to crash nearly all of them using
+  our approach.
 
-# Abstract
-
-This is the abstract. It convinces people to read the report.
+---
 
 # Introduction
 
