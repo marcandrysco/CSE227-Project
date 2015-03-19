@@ -63,11 +63,11 @@ replacing them with new content containing additional media elements. This
 process is repeated until the page is terminated or a bug causes the page to
 crash.
 
-The pages are generated with numerous random properties set for every element,
-generating media tags to be overlapping with a variety of position, opacity,
-and styling attributes. Creating elements in this way allows the web page to
-stress the rendering engine and hopes to discover issues arising from media
-content layed out in an unexpected fashion.
+The pages are generated with style and DOM attributes randomly set for each
+element. Media tags are generated to be overlapping with a variety of
+position, opacity, and styling attributes. Creating elements in this way
+allows the web page to stress the rendering engine in hopes to discover issues
+arising from media content layed out in an unexpected fashion.
 
 ## Structured Random Audio Media
 
@@ -128,7 +128,12 @@ returned in the output arguments are copies; the caller must free them
 when done." However, calling `gst_message_parse_error` on the specially
 crafted MPEG-4 file prevents the call from ever writing to debug and the
 unitialized value is then passed to `g_free`. The allocator attempts to
-free the value, causing the segmentation fault.
+free the value, causing the segmentation fault. Of interest, the sample code
+provideed by GStreamer sets `debug` to `NULL` before the function call and
+explicitly checks for `NULL` afterwards. While this suggests that that the caller
+code should handle `NULL` values, this requirement is not present in the
+documentation. We are therefore uncertain whether the bug belongs to Firefox
+or GStreamer.
 
 ## Mac OS X Kernel Panic
 
